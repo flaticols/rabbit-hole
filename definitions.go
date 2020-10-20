@@ -2,7 +2,6 @@ package rabbithole
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/url"
 )
@@ -83,7 +82,7 @@ type Definitions struct {
 
 // BackupDefinitions back all definitions.
 func (c *Client) BackupDefinitions() (def *Definitions, err error) {
-	req, err := newGETRequest(c, "/definitions")
+	req, err := newGETRequest(c, "definitions")
 	if err != nil {
 		return &Definitions{}, err
 	}
@@ -97,7 +96,7 @@ func (c *Client) BackupDefinitions() (def *Definitions, err error) {
 
 // BackupVhostDefinitions back vhost definitions.
 func (c *Client) BackupVhostDefinitions(vhost string) (def *Definitions, err error) {
-	req, err := newGETRequest(c, url.PathEscape(fmt.Sprintf("/definitions/%s", vhost)))
+	req, err := newGETRequest(c, "definitions/"+url.PathEscape(vhost))
 	if err != nil {
 		return &Definitions{}, err
 	}
@@ -116,7 +115,7 @@ func (c *Client) RestoreDefinitions(def *Definitions) (res *http.Response, err e
 		return nil, err
 	}
 
-	req, err := newRequestWithBody(c, "POST", "/definitions", body)
+	req, err := newRequestWithBody(c, "POST", "definitions", body)
 	if err != nil {
 		return nil, err
 	}
@@ -136,7 +135,7 @@ func (c *Client) RestoreVhostDefinitions(def *Definitions, vhost string) (res *h
 		return nil, err
 	}
 
-	req, err := newRequestWithBody(c, "POST", url.PathEscape(fmt.Sprintf("/definitions/%s", vhost)), body)
+	req, err := newRequestWithBody(c, "POST", "definitions/"+url.PathEscape(vhost), body)
 	if err != nil {
 		return nil, err
 	}
