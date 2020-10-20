@@ -2604,6 +2604,8 @@ var _ = Describe("Rabbithole", func() {
 			_, err = rmqc.DeclareQueue("tests", "tests", QueueSettings{})
 			Ω(err).Should(BeNil())
 
+			awaitEventPropagation()
+
 			def, err := rmqc.BackupDefinitions()
 			Ω(err).Should(BeNil())
 
