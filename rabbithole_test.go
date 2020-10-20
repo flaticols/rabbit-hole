@@ -2596,6 +2596,60 @@ var _ = Describe("Rabbithole", func() {
 		})
 	})
 
+	Context("GET /api/definitions", func() {
+		It("returns all definitions", func() {
+			_, err := rmqc.DeclareQueue("", "", QueueSettings{})
+			Ω(err).Should(BeNil())
+
+			def, err := rmqc.BackupDefinitions()
+			Ω(err).Should(BeNil())
+
+			Ω(len(def.VirtualHosts)).Should(Equal(1))
+
+			var hasDeclaredVhost = false
+
+			for _, vh := range def.VirtualHosts {
+				if vh.Name == "" {
+					hasDeclaredVhost = true
+				}
+			}
+
+			Ω(hasDeclaredVhost).Should(Equal(true))
+
+		})
+
+	})
+
+	Context("GET /api/definitions/tests", func() {
+		It("returns vhost definitions", func() {
+			_, err := rmqc.PutVhost("tests", VhostSettings{})
+			Ω(err).Should(BeNil())
+
+			_, err = rmqc.DeclareQueue("tests", "", QueueSettings{})
+			Ω(err).Should(BeNil())
+
+			def, err := rmqc.BackupDefinitions()
+			Ω(err).Should(BeNil())
+
+			Ω(len(def.VirtualHosts)).Should(Equal(1))
+
+			var hasDeclaredVhost = false
+
+			for _, vh := range def.VirtualHosts {
+				if vh.Name == "" {
+					hasDeclaredVhost = true
+				}
+			}
+
+			Ω(hasDeclaredVhost).Should(Equal(true))
+
+			// cleanup
+			_, err = rmqc.DeleteQueue("tests", "")
+			Ω(err).Should(BeNil())
+		})
+
+	})
+
 	Context("paramToUpstream", func() {
 		Context("when the parameter value is not initialized", func() {
 			It("returns an empty FederationUpstream", func() {
