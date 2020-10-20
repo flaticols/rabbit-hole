@@ -68,7 +68,7 @@ type BindingDefinitions struct {
 type Definitions struct {
 	RabbitVersion string `json:"rabbit_version"`
 
-	Users            UserDefinition                `json:"users" yaml:"users"`
+	Users            []UserDefinition              `json:"users" yaml:"users"`
 	VirtualHosts     []VHostDefinitions            `json:"virtual_hosts" yaml:"virtual_hosts"`
 	Permissions      []PermissionsDefinitions      `json:"permissions" yaml:"permissions"`
 	TopicPermissions []TopicPermissionsDefinitions `json:"topic_permissions" yaml:"topic_permissions"`
