@@ -2614,7 +2614,7 @@ var _ = Describe("Rabbithole", func() {
 			var hasDeclaredVhost = false
 
 			for _, vh := range def.VirtualHosts {
-				if vh.Name == "" {
+				if vh.Name == "tests" {
 					hasDeclaredVhost = true
 				}
 			}
@@ -2648,7 +2648,7 @@ var _ = Describe("Rabbithole", func() {
 			var hasDeclaredVhost = false
 
 			for _, vh := range def.VirtualHosts {
-				if vh.Name == "" {
+				if vh.Name == "tests" {
 					hasDeclaredVhost = true
 				}
 			}
