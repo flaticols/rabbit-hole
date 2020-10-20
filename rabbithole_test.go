@@ -2598,7 +2598,10 @@ var _ = Describe("Rabbithole", func() {
 
 	Context("GET /api/definitions", func() {
 		It("returns all definitions", func() {
-			_, err := rmqc.DeclareQueue("", "", QueueSettings{})
+			_, err := rmqc.PutVhost("tests", VhostSettings{})
+			Ω(err).Should(BeNil())
+
+			_, err = rmqc.DeclareQueue("tests", "tests", QueueSettings{})
 			Ω(err).Should(BeNil())
 
 			def, err := rmqc.BackupDefinitions()
@@ -2614,7 +2617,12 @@ var _ = Describe("Rabbithole", func() {
 				}
 			}
 
-			Ω(hasDeclaredVhost).Should(Equal(true))
+			// cleanup
+			_, err = rmqc.DeleteQueue("tests", "tests")
+			Ω(err).Should(BeNil())
+
+			_, err = rmqc.DeleteVhost("tests")
+			Ω(err).Should(BeNil())
 
 		})
 
@@ -2625,7 +2633,7 @@ var _ = Describe("Rabbithole", func() {
 			_, err := rmqc.PutVhost("tests", VhostSettings{})
 			Ω(err).Should(BeNil())
 
-			_, err = rmqc.DeclareQueue("tests", "", QueueSettings{})
+			_, err = rmqc.DeclareQueue("tests", "tests", QueueSettings{})
 			Ω(err).Should(BeNil())
 
 			def, err := rmqc.BackupDefinitions()
@@ -2644,7 +2652,10 @@ var _ = Describe("Rabbithole", func() {
 			Ω(hasDeclaredVhost).Should(Equal(true))
 
 			// cleanup
-			_, err = rmqc.DeleteQueue("tests", "")
+			_, err = rmqc.DeleteQueue("tests", "tests")
+			Ω(err).Should(BeNil())
+
+			_, err = rmqc.DeleteVhost("tests")
 			Ω(err).Should(BeNil())
 		})
 
