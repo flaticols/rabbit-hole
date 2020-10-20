@@ -2617,6 +2617,8 @@ var _ = Describe("Rabbithole", func() {
 				}
 			}
 
+			Ω(hasDeclaredVhost).Should(Equal(true))
+
 			// cleanup
 			_, err = rmqc.DeleteQueue("tests", "tests")
 			Ω(err).Should(BeNil())
