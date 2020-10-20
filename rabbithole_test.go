@@ -2609,8 +2609,6 @@ var _ = Describe("Rabbithole", func() {
 			def, err := rmqc.BackupDefinitions()
 			Ω(err).Should(BeNil())
 
-			Ω(len(def.VirtualHosts)).Should(Equal(1))
-
 			var hasDeclaredVhost = false
 
 			for _, vh := range def.VirtualHosts {
@@ -2642,8 +2640,6 @@ var _ = Describe("Rabbithole", func() {
 
 			def, err := rmqc.BackupDefinitions()
 			Ω(err).Should(BeNil())
-
-			Ω(len(def.VirtualHosts)).Should(Equal(1))
 
 			var hasDeclaredVhost = false
 
